@@ -7,19 +7,18 @@ public class MyStory implements Serializable {
 
     private String url;
 
-    private Date date;
-
     private String description;
 
-    public MyStory(String url, Date date, String description) {
+    private String title;
+
+    public MyStory(String url, String title, String description) {
         this.url = url;
-        this.date = date;
+        this.title = title;
         this.description = description;
     }
 
     public MyStory(String url, Date date) {
         this.url = url;
-        this.date = date;
     }
 
     public MyStory(String url) {
@@ -29,12 +28,12 @@ public class MyStory implements Serializable {
     public MyStory() {
     }
 
-    public Date getDate() {
-        return date;
+    public String getTitle() {
+        return title;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getUrl() {

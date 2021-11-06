@@ -21,7 +21,7 @@ public class StoriesProgressView extends LinearLayout {
     private static final String TAG = StoriesProgressView.class.getSimpleName();
 
     private final LayoutParams PROGRESS_BAR_LAYOUT_PARAM = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1);
-    private final LayoutParams SPACE_LAYOUT_PARAM = new LayoutParams(5, LayoutParams.WRAP_CONTENT);
+    private final LayoutParams SPACE_LAYOUT_PARAM = new LayoutParams(20, LayoutParams.WRAP_CONTENT);
 
     private final List<PausableProgressBar> progressBars = new ArrayList<>();
 

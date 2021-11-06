@@ -1,18 +1,13 @@
 package omari.hamza.storyviewdemo;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import omari.hamza.storyview.StoryView;
-import omari.hamza.storyview.callback.OnStoryChangedCallback;
-import omari.hamza.storyview.callback.StoryClickListeners;
 import omari.hamza.storyview.model.MyStory;
 import omari.hamza.storyviewdemo.databinding.ActivityMainBinding;
 
@@ -29,57 +24,33 @@ public class MainActivity extends AppCompatActivity {
 
         final ArrayList<MyStory> myStories = new ArrayList<>();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        MyStory story1 = new MyStory(
+                "https://static-yoosh.s3.eu-north-1.amazonaws.com/story-2.png",
+                "This is testing title",
+                "description"
+        );
+        myStories.add(story1);
 
-        try {
-            MyStory story1 = new MyStory(
-                    "https://media.pri.org/s3fs-public/styles/story_main/public/images/2019/09/092419-germany-climate.jpg?itok=P3FbPOp-",
-                    simpleDateFormat.parse("20-10-2019 10:00:00")
-            );
-            myStories.add(story1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            MyStory story2 = new MyStory(
-                    "http://i.imgur.com/0BfsmUd.jpg",
-                    simpleDateFormat.parse("26-10-2019 15:00:00"),
-                    "#TEAM_STANNIS"
-            );
-            myStories.add(story2);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        MyStory story2 = new MyStory(
+                "https://static-yoosh.s3.eu-north-1.amazonaws.com/story-3.png",
+                "This is testing title",
+                "description"
+        );
+        myStories.add(story2);
 
         MyStory story3 = new MyStory(
-                "https://mfiles.alphacoders.com/681/681242.jpg"
+                "https://static-yoosh.s3.eu-north-1.amazonaws.com/story-4.png",
+                "This is testing title",
+                "description"
         );
         myStories.add(story3);
 
         new StoryView.Builder(getSupportFragmentManager())
                 .setStoriesList(myStories)
                 .setStoryDuration(5000)
-                .setTitleText("Hamza Al-Omari")
-                .setSubtitleText("Damascus")
-                .setStoryClickListeners(new StoryClickListeners() {
-                    @Override
-                    public void onDescriptionClickListener(int position) {
-                        Toast.makeText(MainActivity.this, "Clicked: " + myStories.get(position).getDescription(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onTitleIconClickListener(int position) {
-                    }
-                })
-                .setOnStoryChangedCallback(new OnStoryChangedCallback() {
-                    @Override
-                    public void storyChanged(int position) {
-                        Toast.makeText(MainActivity.this, position + "", Toast.LENGTH_SHORT).show();
-                    }
-                })
+                .setTitleText("Introduction to Yoosh")
                 .setStartingIndex(0)
-                .setRtl(true)
+                .setBackground(getDrawable(R.drawable.background))
                 .build()
                 .show();
 
