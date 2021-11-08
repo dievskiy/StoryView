@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import omari.hamza.storyview.callback.OnStoryChangedCallback;
 import omari.hamza.storyview.callback.StoryCallbacks;
 import omari.hamza.storyview.callback.StoryClickListeners;
-import omari.hamza.storyview.model.MyStory;
+import omari.hamza.storyview.model.Story;
 import omari.hamza.storyview.progress.StoriesProgressView;
 import omari.hamza.storyview.utils.ViewPagerAdapter;
 
@@ -34,15 +34,13 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
 
     private static final String TAG = StoryView.class.getSimpleName();
 
-    private ArrayList<MyStory> storiesList = new ArrayList<>();
+    private ArrayList<Story> storiesList = new ArrayList<>();
 
-    private final static String IMAGES_KEY = "IMAGES";
+    private final static String STORIES_KEY = "IMAGES";
 
     private long duration = 2000; //Default Duration
 
     private static final String DURATION_KEY = "DURATION";
-
-    private static final String HEADER_INFO_KEY = "HEADER_INFO";
 
     private static final String STARTING_INDEX_TAG = "STARTING_INDEX";
 
@@ -122,7 +120,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
 
     private void readArguments() {
         assert getArguments() != null;
-        storiesList = new ArrayList<>((ArrayList<MyStory>) getArguments().getSerializable(IMAGES_KEY));
+        storiesList = new ArrayList<>((ArrayList<Story>) getArguments().getSerializable(STORIES_KEY));
         duration = getArguments().getLong(DURATION_KEY, 2000);
         startingIndex = getArguments().getInt(STARTING_INDEX_TAG, 0);
     }
@@ -269,8 +267,8 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
             return this;
         }
 
-        public Builder setStoriesList(ArrayList<MyStory> storiesList) {
-            bundle.putSerializable(IMAGES_KEY, storiesList);
+        public Builder setStoriesList(ArrayList<Story> storiesList) {
+            bundle.putSerializable(STORIES_KEY, storiesList);
             return this;
         }
 

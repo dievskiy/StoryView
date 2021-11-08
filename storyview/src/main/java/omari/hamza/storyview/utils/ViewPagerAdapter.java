@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,27 +17,27 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 
 import omari.hamza.storyview.R;
 import omari.hamza.storyview.callback.StoryCallbacks;
-import omari.hamza.storyview.model.MyStory;
+import omari.hamza.storyview.model.ImageStory;
+import omari.hamza.storyview.model.SimpleStory;
+import omari.hamza.storyview.model.Story;
 
 public class ViewPagerAdapter extends PagerAdapter {
 
-    private ArrayList<MyStory> images;
+    private ArrayList<Story> stories;
     private Context context;
     private StoryCallbacks storyCallbacks;
     private StoryClickListener storyClickListener;
     private boolean storiesStarted = false;
 
-    public ViewPagerAdapter(ArrayList<MyStory> images, Context context, StoryCallbacks storyCallbacks, StoryClickListener storyClickListener) {
-        this.images = images;
+    public ViewPagerAdapter(ArrayList<Story> stories, Context context, StoryCallbacks storyCallbacks, StoryClickListener storyClickListener) {
+        this.stories = stories;
         this.context = context;
         this.storyCallbacks = storyCallbacks;
         this.storyClickListener = storyClickListener;
@@ -44,7 +45,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return images.size();
+        return stories.size();
     }
 
     @Override
@@ -52,26 +53,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
-    @NonNull
-    @Override
-    public Object instantiateItem(@NonNull ViewGroup collection, final int position) {
-
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        MyStory currentStory = images.get(position);
-
-        final View view = inflater.inflate(R.layout.item_story, collection, false);
-
+    private void renderImageStory(View view, ImageStory currentStory) {
         final ImageView mImageView = view.findViewById(R.id.image);
-
-        final TextView title = view.findViewById(R.id.title);
-
-        final TextView description = view.findViewById(R.id.description);
-
-        title.setText(currentStory.getTitle());
-
-        description.setText(currentStory.getDescription());
-
         Glide.with(context)
                 .load(currentStory.getUrl())
                 .listener(new RequestListener<Drawable>() {
@@ -91,6 +74,26 @@ public class ViewPagerAdapter extends PagerAdapter {
                     }
                 })
                 .into(mImageView);
+    }
+
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup collection, final int position) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        Story currentStory = stories.get(position);
+        View view = null;
+
+        if (currentStory instanceof ImageStory) {
+            view = inflater.inflate(R.layout.item_image_story, collection, false);
+            renderImageStory(view, (ImageStory) currentStory);
+        } else if (currentStory instanceof SimpleStory) {
+            view = inflater.inflate(R.layout.item_simple_story, collection, false);
+        }
+
+        final TextView title = view.findViewById(R.id.title);
+        final TextView description = view.findViewById(R.id.description);
+        title.setText(currentStory.getTitle());
+        description.setText(currentStory.getDescription());
 
         collection.addView(view);
 
@@ -98,7 +101,6 @@ public class ViewPagerAdapter extends PagerAdapter {
             storyClickListener.onClick(motionEvent);
             return true;
         });
-
 
         return view;
     }
